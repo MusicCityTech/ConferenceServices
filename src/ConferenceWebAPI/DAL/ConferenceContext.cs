@@ -10,7 +10,7 @@ namespace ConferenceWebAPI.DAL
         public ConferenceContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<ConferenceContext>());
+            Database.SetInitializer(new ConferenceInitializer());
         }
 
         public static ConferenceContext Create()

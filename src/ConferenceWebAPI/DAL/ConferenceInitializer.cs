@@ -1,8 +1,5 @@
 ﻿using ConferenceWebAPI.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ConferenceWebAPI.DAL
 {
@@ -30,7 +27,7 @@ namespace ConferenceWebAPI.DAL
                 Sessions=new List<Session> {new Session{Title="Computer Science"}}}
             };
 
-            speakers.ForEach(s => context.Speakers.Add(s));
+            context.Speakers.AddRange(speakers);
             context.SaveChanges();
         }
     }

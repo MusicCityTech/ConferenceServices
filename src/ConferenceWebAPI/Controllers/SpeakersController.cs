@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.ModelBinding;
 using System.Web.OData;
-using System.Web.OData.Query;
-using System.Web.OData.Routing;
 using ConferenceWebAPI.Models;
 using ConferenceWebAPI.DAL;
 
@@ -19,20 +11,20 @@ namespace ConferenceWebAPI.Controllers
 {
     public class SpeakersController : ODataController
     {
-        private ConferenceContext db = new ConferenceContext();
+        private readonly ConferenceContext _db = new ConferenceContext();
 
         // GET: odata/Speakers
         [EnableQuery]
         public IQueryable<Speaker> GetSpeakers()
         {
-            return db.Speakers;
+            return _db.Speakers;
         }
 
         // GET: odata/Speakers(5)
         [EnableQuery]
         public SingleResult<Speaker> GetSpeaker([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Speakers.Where(speaker => speaker.ID == key));
+            return SingleResult.Create(_db.Speakers.Where(speaker => speaker.ID == key));
         }
 
         // PUT: odata/Speakers(5)
@@ -45,7 +37,7 @@ namespace ConferenceWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            Speaker speaker = await db.Speakers.FindAsync(key);
+            Speaker speaker = await _db.Speakers.FindAsync(key);
             if (speaker == null)
             {
                 return NotFound();
@@ -55,7 +47,7 @@ namespace ConferenceWebAPI.Controllers
 
             try
             {
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +72,8 @@ namespace ConferenceWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Speakers.Add(speaker);
-            await db.SaveChangesAsync();
+            _db.Speakers.Add(speaker);
+            await _db.SaveChangesAsync();
 
             return Created(speaker);
         }
@@ -97,7 +89,7 @@ namespace ConferenceWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            Speaker speaker = await db.Speakers.FindAsync(key);
+            Speaker speaker = await _db.Speakers.FindAsync(key);
             if (speaker == null)
             {
                 return NotFound();
@@ -107,7 +99,7 @@ namespace ConferenceWebAPI.Controllers
 
             try
             {
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -127,14 +119,14 @@ namespace ConferenceWebAPI.Controllers
         // DELETE: odata/Speakers(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            Speaker speaker = await db.Speakers.FindAsync(key);
+            Speaker speaker = await _db.Speakers.FindAsync(key);
             if (speaker == null)
             {
                 return NotFound();
             }
 
-            db.Speakers.Remove(speaker);
-            await db.SaveChangesAsync();
+            _db.Speakers.Remove(speaker);
+            await _db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -143,14 +135,14 @@ namespace ConferenceWebAPI.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool SpeakerExists(int key)
         {
-            return db.Speakers.Count(e => e.ID == key) > 0;
+            return _db.Speakers.Count(e => e.ID == key) > 0;
         }
     }
 }
