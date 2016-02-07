@@ -10,6 +10,7 @@ namespace ConferenceWebAPI.DAL
         public ConferenceContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new DropCreateDatabaseAlways<ConferenceContext>());
         }
 
         public static ConferenceContext Create()
@@ -23,6 +24,7 @@ namespace ConferenceWebAPI.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

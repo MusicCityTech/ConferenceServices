@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ConferenceWebAPI.DAL
 {
-    public class ConferenceInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ConferenceContext>
+    public class ConferenceInitializer : System.Data.Entity.DropCreateDatabaseAlways<ConferenceContext>
     {
         protected override void Seed(ConferenceContext context)
         {
