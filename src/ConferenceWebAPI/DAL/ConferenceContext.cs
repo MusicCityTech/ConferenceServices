@@ -20,6 +20,7 @@ namespace ConferenceWebAPI.DAL
 
 		public DbSet<Speaker> Speakers { get; set; }
 		public DbSet<Session> Sessions { get; set; }
+		public DbSet<Profile> Profiles { get; set; }
 
 		protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{

@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceWebAPI", "src\ConferenceWebAPI\ConferenceWebAPI.csproj", "{C2C537A7-B116-417E-B4AD-28743635CB9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConferenceWebAPI.Tests", "test\ConferenceWebAPI.Tests\ConferenceWebAPI.Tests.csproj", "{59D1177B-59F9-4DCB-97FF-B113310C44EF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{C2C537A7-B116-417E-B4AD-28743635CB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2C537A7-B116-417E-B4AD-28743635CB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2C537A7-B116-417E-B4AD-28743635CB9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59D1177B-59F9-4DCB-97FF-B113310C44EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59D1177B-59F9-4DCB-97FF-B113310C44EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59D1177B-59F9-4DCB-97FF-B113310C44EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59D1177B-59F9-4DCB-97FF-B113310C44EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

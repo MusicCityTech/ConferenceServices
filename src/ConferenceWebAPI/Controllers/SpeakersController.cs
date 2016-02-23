@@ -24,7 +24,7 @@ namespace ConferenceWebAPI.Controllers
 		[EnableQuery]
 		public SingleResult<Speaker> GetSpeaker( [FromODataUri] int key )
 		{
-			return SingleResult.Create( _db.Speakers.Where( speaker => speaker.ID == key ) );
+			return SingleResult.Create( _db.Speakers.Where( speaker => speaker.Id == key ) );
 		}
 
 		// PUT: odata/Speakers(5)
@@ -142,7 +142,7 @@ namespace ConferenceWebAPI.Controllers
 
 		private bool SpeakerExists( int key )
 		{
-			return _db.Speakers.Count( e => e.ID == key ) > 0;
+			return _db.Speakers.Count( e => e.Id == key ) > 0;
 		}
 	}
 }

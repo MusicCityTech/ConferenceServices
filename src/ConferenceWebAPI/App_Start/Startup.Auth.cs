@@ -43,7 +43,6 @@ namespace ConferenceWebAPI
 			};
 
 			// Enable the application to use bearer tokens to authenticate users
-			app.UseCors(CorsOptions.AllowAll);
 			app.UseOAuthBearerTokens( OAuthOptions );
 
 			// Uncomment the following lines to enable logging in with third party login providers
