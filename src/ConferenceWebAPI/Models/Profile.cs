@@ -4,11 +4,12 @@ namespace ConferenceWebAPI.Models
 {
 	public class Profile
 	{
-		public int Id { get; set; }
+		//public int Id { get; set; }
 
 		[Display( Name = "Email Address" )]
 		[Required]
 		[DataType( DataType.EmailAddress )]
+		[Key]
 		public string Email { get; set; }
 
 		[Display( Name = "First Name" )]

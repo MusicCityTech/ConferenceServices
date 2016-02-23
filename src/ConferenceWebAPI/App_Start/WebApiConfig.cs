@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Dispatcher;
+using System.Web.OData;
 using Microsoft.Owin.Security.OAuth;
 using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
@@ -27,7 +29,18 @@ namespace ConferenceWebAPI
 			ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
 			builder.EntitySet<Speaker>( "Speakers" );
 			builder.EntitySet<Session>( "Sessions" );
-			config.MapODataServiceRoute( "odata", "odata", builder.GetEdmModel() );
+			builder.EntitySet<Profile>( "Profiles" )
+				.EntityType
+				.HasKey( e => e.Email );
+
+			config.MapODataServiceRoute(
+				"odata",
+				"odata",
+				builder.GetEdmModel(),
+				new ODataNullValueMessageHandler()
+				{
+					InnerHandler = new HttpControllerDispatcher( config )
+				} );
 		}
 	}
 }
