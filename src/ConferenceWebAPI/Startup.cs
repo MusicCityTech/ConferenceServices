@@ -12,10 +12,11 @@ namespace ConferenceWebAPI
 		public void Configuration( IAppBuilder app )
 		{
 			var config = new HttpConfiguration();
-			app.UseCors(CorsOptions.AllowAll);
+			app.UseCors( CorsOptions.AllowAll );
 			ConfigureAuth( app );
-			WebApiConfig.Register(config);
+			WebApiConfig.Register( config );
 			app.UseWebApi( config );
+			config.EnsureInitialized();
 		}
 	}
 }

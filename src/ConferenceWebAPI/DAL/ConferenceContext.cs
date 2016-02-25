@@ -5,10 +5,10 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ConferenceWebAPI.DAL
 {
-	public class ConferenceContext : IdentityDbContext<ApplicationUser>
+	public class ConferenceContext : IdentityDbContext<User, Role, int, UserLogin, UserRole, UserClaim>
 	{
 		public ConferenceContext()
-			: base( "DefaultConnection", throwIfV1Schema: false )
+			: base( "DefaultConnection" )
 		{
 			Database.SetInitializer( new ConferenceInitializer() );
 		}
@@ -25,6 +25,11 @@ namespace ConferenceWebAPI.DAL
 		protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{
 			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+			modelBuilder.Entity<User>()
+				.HasOptional( u => u.Profile )
+				.WithRequired( p => p.User );
+
 			base.OnModelCreating( modelBuilder );
 		}
 	}

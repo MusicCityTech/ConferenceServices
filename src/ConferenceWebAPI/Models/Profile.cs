@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConferenceWebAPI.Models
 {
 	public class Profile
 	{
-		//public int Id { get; set; }
+		public int Id { get; set; }
+
+		public virtual User User { get; set; }
 
 		[Display( Name = "Email Address" )]
 		[Required]
 		[DataType( DataType.EmailAddress )]
-		[Key]
 		public string Email { get; set; }
 
 		[Display( Name = "First Name" )]
@@ -31,5 +33,17 @@ namespace ConferenceWebAPI.Models
 		[Required]
 		[MaxLength( 3000 )]
 		public string Bio { get; set; }
+
+		[Display( Name = "Twitter Handle" )]
+		[MaxLength( 18 )]
+		public string TwitterHandle { get; set; }
+
+		[Display( Name = "GitHub Username" )]
+		[MaxLength( 39 )]
+		public string GithubUsername { get; set; }
+
+		[Display( Name = "LinkedIn Profile Url" )]
+		[MaxLength( 255 )]
+		public string LinkedInProfile { get; set; }
 	}
 }

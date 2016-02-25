@@ -17,21 +17,21 @@ namespace ConferenceWebAPI
 			config.SuppressDefaultHostAuthentication();
 			config.Filters.Add( new HostAuthenticationFilter( OAuthDefaults.AuthenticationType ) );
 
-			// Web API routes
 			config.MapHttpAttributeRoutes();
-
-			config.Routes.MapHttpRoute(
-				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
-				defaults: new { id = RouteParameter.Optional }
-			);
 
 			ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
 			builder.EntitySet<Speaker>( "Speakers" );
 			builder.EntitySet<Session>( "Sessions" );
-			builder.EntitySet<Profile>( "Profiles" )
-				.EntityType
-				.HasKey( e => e.Email );
+			var userEntityType = builder.EntitySet<User>( "Users" ).EntityType;
+			userEntityType.Ignore( e => e.Claims );
+			userEntityType.Ignore( e => e.Logins );
+			userEntityType.Ignore( u => u.Roles );
+			userEntityType.Ignore( u => u.PasswordHash );
+			userEntityType.Ignore( u => u.SecurityStamp );
+
+			//builder.EntitySet<UserClaim>( "UserClaims" );
+			//builder.EntitySet<UserLogin>( "UserLogins" );
+			builder.EntitySet<Profile>( "Profiles" );
 
 			config.MapODataServiceRoute(
 				"odata",
@@ -41,6 +41,15 @@ namespace ConferenceWebAPI
 				{
 					InnerHandler = new HttpControllerDispatcher( config )
 				} );
+
+			// Web API routes
+
+
+			config.Routes.MapHttpRoute(
+				name: "DefaultApi",
+				routeTemplate: "api/{controller}/{id}",
+				defaults: new { id = RouteParameter.Optional }
+			);
 		}
 	}
 }

@@ -63,7 +63,7 @@ namespace ConferenceWebAPI.Controllers
 			{
 				Email = User.Identity.GetUserName(),
 				HasRegistered = externalLogin == null,
-				LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+				LoginProvider = externalLogin?.LoginProvider
 			};
 		}
 
@@ -79,7 +79,7 @@ namespace ConferenceWebAPI.Controllers
 		[Route( "ManageInfo" )]
 		public async Task<ManageInfoViewModel> GetManageInfo( string returnUrl, bool generateState = false )
 		{
-			IdentityUser user = await UserManager.FindByIdAsync( User.Identity.GetUserId() );
+			var user = await UserManager.FindByIdAsync( User.Identity.GetUserId<int>() );
 
 			if ( user == null )
 			{
@@ -88,11 +88,11 @@ namespace ConferenceWebAPI.Controllers
 
 			var logins = user
 				.Logins
-				.Select(linkedAccount => new UserLoginInfoViewModel
+				.Select( linkedAccount => new UserLoginInfoViewModel
 				{
 					LoginProvider = linkedAccount.LoginProvider,
 					ProviderKey = linkedAccount.ProviderKey
-				}).ToList();
+				} ).ToList();
 
 			if ( user.PasswordHash != null )
 			{
@@ -121,7 +121,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( ModelState );
 			}
 
-			var result = await UserManager.ChangePasswordAsync( User.Identity.GetUserId(), model.OldPassword,
+			var result = await UserManager.ChangePasswordAsync( User.Identity.GetUserId<int>(), model.OldPassword,
 				model.NewPassword );
 
 			return !result.Succeeded ? GetErrorResult( result ) : Ok();
@@ -136,7 +136,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( ModelState );
 			}
 
-			var result = await UserManager.AddPasswordAsync( User.Identity.GetUserId(), model.NewPassword );
+			var result = await UserManager.AddPasswordAsync( User.Identity.GetUserId<int>(), model.NewPassword );
 
 			return !result.Succeeded ? GetErrorResult( result ) : Ok();
 		}
@@ -166,7 +166,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( "The external login is already associated with an account." );
 			}
 
-			var result = await UserManager.AddLoginAsync( User.Identity.GetUserId(),
+			var result = await UserManager.AddLoginAsync( User.Identity.GetUserId<int>(),
 				new UserLoginInfo( externalData.LoginProvider, externalData.ProviderKey ) );
 
 			return !result.Succeeded ? GetErrorResult( result ) : Ok();
@@ -185,11 +185,11 @@ namespace ConferenceWebAPI.Controllers
 
 			if ( model.LoginProvider == LocalLoginProvider )
 			{
-				result = await UserManager.RemovePasswordAsync( User.Identity.GetUserId() );
+				result = await UserManager.RemovePasswordAsync( User.Identity.GetUserId<int>() );
 			}
 			else
 			{
-				result = await UserManager.RemoveLoginAsync( User.Identity.GetUserId(),
+				result = await UserManager.RemoveLoginAsync( User.Identity.GetUserId<int>(),
 					new UserLoginInfo( model.LoginProvider, model.ProviderKey ) );
 			}
 
@@ -273,18 +273,19 @@ namespace ConferenceWebAPI.Controllers
 			}
 
 			return descriptions
-				.Select(description => new ExternalLoginViewModel
+				.Select( description => new ExternalLoginViewModel
 				{
-					Name = description.Caption, Url = Url.Route("ExternalLogin", new
+					Name = description.Caption,
+					Url = Url.Route( "ExternalLogin", new
 					{
 						provider = description.AuthenticationType,
 						response_type = "token",
 						client_id = Startup.PublicClientId,
-						redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
+						redirect_uri = new Uri( Request.RequestUri, returnUrl ).AbsoluteUri,
 						state = state
-					}),
+					} ),
 					State = state
-				}).ToList();
+				} ).ToList();
 		}
 
 		// POST api/Account/Register
@@ -297,7 +298,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( ModelState );
 			}
 
-			var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+			var user = new User() { UserName = model.Email, Email = model.Email };
 
 			var result = await UserManager.CreateAsync( user, model.Password );
 
@@ -321,7 +322,7 @@ namespace ConferenceWebAPI.Controllers
 				return InternalServerError();
 			}
 
-			var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+			var user = new User() { UserName = model.Email, Email = model.Email };
 
 			var result = await UserManager.CreateAsync( user );
 			if ( !result.Succeeded )
@@ -355,7 +356,7 @@ namespace ConferenceWebAPI.Controllers
 				return InternalServerError();
 			}
 
-			if (result.Succeeded) return null;
+			if ( result.Succeeded ) return null;
 
 			if ( result.Errors != null )
 			{

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web.ModelBinding;
 using System.Web.OData;
 using ConferenceWebAPI.Models;
 using ConferenceWebAPI.DAL;
 using System.Web.Http;
+using System.Web.OData.Routing;
 
 namespace ConferenceWebAPI.Controllers
 {
@@ -130,6 +130,11 @@ namespace ConferenceWebAPI.Controllers
 			await _db.SaveChangesAsync();
 
 			return StatusCode( HttpStatusCode.NoContent );
+		}
+
+		public SingleResult<Profile> GetProfile( [FromODataUri] int key )
+		{
+			return SingleResult.Create( _db.Users.Where( user => user.Id == key ).Select( user => user.Profile ) );
 		}
 
 		protected override void Dispose( bool disposing )
