@@ -29,8 +29,8 @@ namespace ConferenceWebAPI
 			userEntityType.Ignore( u => u.PasswordHash );
 			userEntityType.Ignore( u => u.SecurityStamp );
 
-			//builder.EntitySet<UserClaim>( "UserClaims" );
-			//builder.EntitySet<UserLogin>( "UserLogins" );
+			//builder.EntitySet<Claim>( "UserClaims" );
+			//builder.EntitySet<Login>( "UserLogins" );
 			builder.EntitySet<Profile>( "Profiles" );
 
 			config.MapODataServiceRoute(

@@ -5,7 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ConferenceWebAPI.DAL
 {
-	public class ConferenceContext : IdentityDbContext<User, Role, int, UserLogin, UserRole, UserClaim>
+	public class ConferenceContext : IdentityDbContext<User, Role, int, Login, UserRole, Claim>
 	{
 		public ConferenceContext()
 			: base( "DefaultConnection" )
@@ -24,13 +24,27 @@ namespace ConferenceWebAPI.DAL
 
 		protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{
+			base.OnModelCreating( modelBuilder );
 			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
 			modelBuilder.Entity<User>()
+				.ToTable( "Users" )
 				.HasOptional( u => u.Profile )
 				.WithRequired( p => p.User );
 
-			base.OnModelCreating( modelBuilder );
+			modelBuilder.Entity<Role>()
+				.ToTable( "Role" );
+
+			modelBuilder.Entity<UserRole>()
+				.ToTable( "UserRole" )
+				.HasKey( r => new { r.UserId, r.RoleId } );
+
+			modelBuilder.Entity<Claim>()
+				.ToTable( "UserClaim" );
+
+			modelBuilder.Entity<Login>()
+				.HasKey( l => new { l.LoginProvider, l.ProviderKey, l.UserId } )
+				.ToTable( "UserLogin" );
 		}
 	}
 }

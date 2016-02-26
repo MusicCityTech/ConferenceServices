@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ConferenceWebAPI.Models
 {
-	public class UserLogin : IdentityUserLogin<int>
+	public class Login : IdentityUserLogin<int>
 	{
 
 	}
@@ -15,7 +15,7 @@ namespace ConferenceWebAPI.Models
 
 	}
 
-	public class UserClaim : IdentityUserClaim<int>
+	public class Claim : IdentityUserClaim<int>
 	{
 
 	}
@@ -26,7 +26,7 @@ namespace ConferenceWebAPI.Models
 	}
 
 	// You can add profile data for the user by adding more properties to your User class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-	public class User : IdentityUser<int, UserLogin, UserRole, UserClaim>
+	public class User : IdentityUser<int, Login, UserRole, Claim>
 	{
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync( UserManager<User, int> manager, string authenticationType )
 		{

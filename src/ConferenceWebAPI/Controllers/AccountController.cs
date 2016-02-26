@@ -17,6 +17,7 @@ using Microsoft.Owin.Security.OAuth;
 using ConferenceWebAPI.Models;
 using ConferenceWebAPI.Providers;
 using ConferenceWebAPI.Results;
+using Claim = System.Security.Claims.Claim;
 
 namespace ConferenceWebAPI.Controllers
 {

@@ -10,7 +10,7 @@ using ConferenceWebAPI.DAL;
 namespace ConferenceWebAPI
 {
 	// Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-	public class ApplicationUserStore : UserStore<User, Role, int, UserLogin, UserRole, UserClaim>, IUserStore<User, int>
+	public class ApplicationUserStore : UserStore<User, Role, int, Login, UserRole, Claim>, IUserStore<User, int>
 	{
 		public ApplicationUserStore( DbContext context ) : base( context )
 		{
