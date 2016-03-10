@@ -5,8 +5,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.OData;
+using System.Web.OData.Routing;
 using ConferenceWebAPI.DAL;
 using ConferenceWebAPI.Models;
+using Microsoft.AspNet.Identity;
 
 namespace ConferenceWebAPI.Controllers
 {
@@ -138,6 +140,15 @@ namespace ConferenceWebAPI.Controllers
 		{
 			return SingleResult.Create( _db.Users.Where( m => m.Id == key ).Select( m => m.Profile ) );
 		}
+
+		//[EnableQuery]
+		//[ODataRoute( "odata/Users/Current/Profile" )]
+		//public SingleResult<Profile> GetProfile()
+		//{
+		//	var userId = User.Identity.GetUserId<int>();
+		//	return SingleResult.Create( _db.Users.Where( m => m.Id == userId ).Select( m => m.Profile ) );
+
+		//}
 
 		protected override void Dispose( bool disposing )
 		{

@@ -62,7 +62,7 @@ namespace ConferenceWebAPI
 			{
 				ClientId = ConfigurationManager.AppSettings[ "GoogleClientId" ],
 				ClientSecret = ConfigurationManager.AppSettings[ "GoogleClientSecret" ],
-				CallbackPath = new PathString("/google-login")
+				CallbackPath = new PathString( "/google-login" )
 			} );
 		}
 	}

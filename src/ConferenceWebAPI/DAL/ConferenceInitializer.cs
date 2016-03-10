@@ -1,4 +1,5 @@
-﻿using ConferenceWebAPI.Models;
+﻿using System;
+using ConferenceWebAPI.Models;
 using System.Collections.Generic;
 
 namespace ConferenceWebAPI.DAL
@@ -7,27 +8,64 @@ namespace ConferenceWebAPI.DAL
 	{
 		protected override void Seed( ConferenceContext context )
 		{
-			var speakers = new List<Speaker>
+			var user = new User
 			{
-			new Speaker{FirstName="Carson",LastName="Alexander",
-				Sessions=new List<Session> {new Session{Title="Chemistry"}}},
-			new Speaker{FirstName="Meredith",LastName="Alonso",
-				Sessions=new List<Session> {new Session{Title= "Microeconomics" } }},
-			new Speaker{FirstName="Arturo",LastName="Anand",
-				Sessions=new List<Session> {new Session{Title= "Macroeconomics" } }},
-			new Speaker{FirstName="Gytis",LastName="Barzdukas",
-				Sessions=new List<Session> {new Session{Title= "Calculus" } }},
-			new Speaker{FirstName="Yan",LastName="Li",
-				Sessions=new List<Session> {new Session{Title= "Trigonometry" } }},
-			new Speaker{FirstName="Peggy",LastName="Justice",
-				Sessions=new List<Session> {new Session{Title= "Composition" } }},
-			new Speaker{FirstName="Laura",LastName="Norman",
-				Sessions=new List<Session> {new Session{Title= "Literature" } }},
-			new Speaker{FirstName="Nino",LastName="Olivetto",
-				Sessions=new List<Session> {new Session{Title="Computer Science"}}}
+				UserName = Faker.Internet.FreeEmail(),
+				Profile = new Profile
+				{
+					FirstName = Faker.Name.First(),
+					LastName = Faker.Name.Last(),
+					Bio = string.Join( Environment.NewLine, Faker.Lorem.Paragraphs( 5 ) ),
+					Email = Faker.Internet.Email(),
+					GithubUsername = Faker.Internet.UserName(),
+					LinkedInProfile = Faker.Internet.DomainName(),
+					TwitterHandle = Faker.Internet.UserName(),
+					Website = Faker.Internet.DomainName()
+				}
+			};
+			context.Users.Add( user );
+
+			var sessions = new List<Session>
+			{
+				new Session()
+				{
+					Abstract = "Abstract 1",
+					AudienceLevel = "Beginner",
+					Notes = "Notes 1",
+					Outline = "Outline 1",
+					Speaker = user,
+					Title = "Angular Deep Dive"
+				},
+				new Session()
+				{
+					Abstract = "Abstract 2",
+					AudienceLevel = "Beginner",
+					Notes = "Notes 2",
+					Outline = "Outline 2",
+					Speaker = user,
+					Title = "Why Elixir is cool"
+				},
+				new Session()
+				{
+					Abstract = "Abstract 3",
+					AudienceLevel = "Beginner",
+					Notes = "Notes 3",
+					Outline = "Outline 3",
+					Speaker = user,
+					Title = "Learn OData"
+				},
+				new Session()
+				{
+					Abstract = "Abstract 4",
+					AudienceLevel = "Beginner",
+					Notes = "Notes 4",
+					Outline = "Outline 4",
+					Speaker = user,
+					Title = "Lets Build Something"
+				}
 			};
 
-			context.Speakers.AddRange( speakers );
+			context.Sessions.AddRange( sessions );
 			context.SaveChanges();
 		}
 	}

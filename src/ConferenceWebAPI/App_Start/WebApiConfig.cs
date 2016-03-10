@@ -20,6 +20,7 @@ namespace ConferenceWebAPI
 			config.MapHttpAttributeRoutes();
 
 			ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+			builder.EnableLowerCamelCase();
 			builder.EntitySet<Speaker>( "Speakers" );
 			builder.EntitySet<Session>( "Sessions" );
 			var userEntityType = builder.EntitySet<User>( "Users" ).EntityType;
