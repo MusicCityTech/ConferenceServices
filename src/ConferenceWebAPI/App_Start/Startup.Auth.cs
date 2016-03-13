@@ -51,8 +51,8 @@ namespace ConferenceWebAPI
 			//    clientSecret: "");
 
 			//app.UseTwitterAuthentication(
-			//    consumerKey: "",
-			//    consumerSecret: "");
+			//   consumerKey: ConfigurationManager.AppSettings[ "D0vSEK2n6GJB89udErOlLVo4o"],
+			//   consumerSecret: ConfigurationManager.AppSettings[" D9P7tLyDTVluRunSe0IYmYfvuvzSF8iybqrU06NroUE18WfHHT"]);
 
 			//app.UseFacebookAuthentication(
 			//    appId: "",
