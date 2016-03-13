@@ -28,7 +28,7 @@ namespace ConferenceWebAPI.Providers
 		{
 			var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-			User user = await userManager.FindAsync( context.UserName, context.Password );
+			Account user = await userManager.FindAsync( context.UserName, context.Password );
 
 			if ( user == null )
 			{
@@ -36,10 +36,8 @@ namespace ConferenceWebAPI.Providers
 				return;
 			}
 
-			ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync( userManager,
-			   OAuthDefaults.AuthenticationType );
-			ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync( userManager,
-				CookieAuthenticationDefaults.AuthenticationType );
+			var oAuthIdentity = await userManager.CreateIdentityAsync( user, OAuthDefaults.AuthenticationType );
+			var cookiesIdentity = await userManager.CreateIdentityAsync( user, CookieAuthenticationDefaults.AuthenticationType );
 
 			AuthenticationProperties properties = CreateProperties( user.UserName );
 			AuthenticationTicket ticket = new AuthenticationTicket( oAuthIdentity, properties );

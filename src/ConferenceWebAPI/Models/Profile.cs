@@ -7,7 +7,7 @@ namespace ConferenceWebAPI.Models
 	{
 		public int Id { get; set; }
 
-		public virtual User User { get; set; }
+		public virtual Account User { get; set; }
 
 		[Display( Name = "Email Address" )]
 		[Required]

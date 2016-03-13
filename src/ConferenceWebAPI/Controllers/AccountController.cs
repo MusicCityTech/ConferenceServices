@@ -94,7 +94,7 @@ namespace ConferenceWebAPI.Controllers
 					ProviderKey = linkedAccount.ProviderKey
 				} ).ToList();
 
-			if ( user.PasswordHash != null )
+			if ( user.Password != null )
 			{
 				logins.Add( new UserLoginInfoViewModel
 				{
@@ -235,10 +235,8 @@ namespace ConferenceWebAPI.Controllers
 			{
 				Authentication.SignOut( DefaultAuthenticationTypes.ExternalCookie );
 
-				var oAuthIdentity = await user.GenerateUserIdentityAsync( UserManager,
-				   OAuthDefaults.AuthenticationType );
-				var cookieIdentity = await user.GenerateUserIdentityAsync( UserManager,
-					CookieAuthenticationDefaults.AuthenticationType );
+				var oAuthIdentity = await UserManager.CreateIdentityAsync(user, OAuthDefaults.AuthenticationType );
+				var cookieIdentity = await UserManager.CreateIdentityAsync( user, CookieAuthenticationDefaults.AuthenticationType );
 
 				var properties = ApplicationOAuthProvider.CreateProperties( user.UserName );
 				Authentication.SignIn( properties, oAuthIdentity, cookieIdentity );
@@ -298,7 +296,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( ModelState );
 			}
 
-			var user = new User() { UserName = model.Email, Email = model.Email };
+			var user = new Account() { UserName = model.Email, Email = model.Email };
 
 			var result = await UserManager.CreateAsync( user, model.Password );
 
@@ -322,7 +320,7 @@ namespace ConferenceWebAPI.Controllers
 				return InternalServerError();
 			}
 
-			var user = new User() { UserName = model.Email, Email = model.Email };
+			var user = new Account() { UserName = model.Email, Email = model.Email };
 
 			var result = await UserManager.CreateAsync( user );
 			if ( !result.Succeeded )

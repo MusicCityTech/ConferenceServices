@@ -16,6 +16,6 @@ namespace ConferenceWebAPI.Models
 		public string Abstract { get; set; }
 		public string Notes { get; set; }
 		
-		public virtual User Speaker { get; set; }
+		public virtual Account Speaker { get; set; }
 	}
 }

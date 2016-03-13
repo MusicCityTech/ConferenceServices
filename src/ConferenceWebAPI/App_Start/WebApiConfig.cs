@@ -21,17 +21,12 @@ namespace ConferenceWebAPI
 
 			ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
 			builder.EnableLowerCamelCase();
-			builder.EntitySet<Speaker>( "Speakers" );
 			builder.EntitySet<Session>( "Sessions" );
-			var userEntityType = builder.EntitySet<User>( "Users" ).EntityType;
+			var userEntityType = builder.EntitySet<Account>( "Users" ).EntityType;
 			userEntityType.Ignore( e => e.Claims );
 			userEntityType.Ignore( e => e.Logins );
-			userEntityType.Ignore( u => u.Roles );
-			userEntityType.Ignore( u => u.PasswordHash );
-			userEntityType.Ignore( u => u.SecurityStamp );
+			userEntityType.Ignore( u => u.Password );
 
-			//builder.EntitySet<Claim>( "UserClaims" );
-			//builder.EntitySet<Login>( "UserLogins" );
 			builder.EntitySet<Profile>( "Profiles" );
 
 			config.MapODataServiceRoute(

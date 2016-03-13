@@ -8,7 +8,7 @@ namespace ConferenceWebAPI.DAL
 	{
 		protected override void Seed( ConferenceContext context )
 		{
-			var user = new User
+			var user = new Account
 			{
 				UserName = Faker.Internet.FreeEmail(),
 				Profile = new Profile
@@ -23,7 +23,7 @@ namespace ConferenceWebAPI.DAL
 					Website = Faker.Internet.DomainName()
 				}
 			};
-			context.Users.Add( user );
+			context.Accounts.Add( user );
 
 			var sessions = new List<Session>
 			{

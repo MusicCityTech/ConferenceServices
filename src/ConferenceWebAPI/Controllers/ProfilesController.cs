@@ -76,7 +76,7 @@ namespace ConferenceWebAPI.Controllers
 
 			if ( profile.User == null )
 			{
-				var users = ( _db.Users as DbSet<User> );
+				var users = ( _db.Accounts as DbSet<Account> );
 				if ( users != null )
 					profile.User = await users.FindAsync( User.Identity.GetUserId<int>() );
 			}
@@ -157,7 +157,7 @@ namespace ConferenceWebAPI.Controllers
 
 		// GET: odata/Profiles(5)/User
 		[EnableQuery]
-		public SingleResult<User> GetUser( [FromODataUri] int key )
+		public SingleResult<Account> GetUser( [FromODataUri] int key )
 		{
 			return SingleResult.Create( _db.Profiles.Where( m => m.Id == key ).Select( m => m.User ) );
 		}

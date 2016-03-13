@@ -206,10 +206,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
-    <Compile Include="Controllers\SpeakersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\ConferenceContext.cs" />
     <Compile Include="DAL\ConferenceInitializer.cs" />
+    <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />

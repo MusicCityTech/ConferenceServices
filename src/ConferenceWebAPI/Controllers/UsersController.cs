@@ -18,20 +18,20 @@ namespace ConferenceWebAPI.Controllers
 
 		// GET: odata/Users
 		[EnableQuery]
-		public IQueryable<User> GetUsers()
+		public IQueryable<Account> GetUsers()
 		{
-			return _db.Users;
+			return _db.Accounts;
 		}
 
 		// GET: odata/Users(5)
 		[EnableQuery]
-		public SingleResult<User> GetUser( [FromODataUri] int key )
+		public SingleResult<Account> GetUser( [FromODataUri] int key )
 		{
-			return SingleResult.Create( _db.Users.Where( applicationUser => applicationUser.Id == key ) );
+			return SingleResult.Create( _db.Accounts.Where( applicationUser => applicationUser.Id == key ) );
 		}
 
 		// PUT: odata/Users(5)
-		public async Task<IHttpActionResult> Put( [FromODataUri] int key, Delta<User> patch )
+		public async Task<IHttpActionResult> Put( [FromODataUri] int key, Delta<Account> patch )
 		{
 			Validate( patch.GetEntity() );
 
@@ -40,7 +40,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( ModelState );
 			}
 
-			var user = await _db.Users.SingleOrDefaultAsync( u => u.Id == key );
+			var user = await _db.Accounts.SingleOrDefaultAsync( u => u.Id == key );
 			if ( user == null )
 			{
 				return NotFound();
@@ -68,14 +68,14 @@ namespace ConferenceWebAPI.Controllers
 		}
 
 		// POST: odata/Users
-		public async Task<IHttpActionResult> Post( User user )
+		public async Task<IHttpActionResult> Post( Account user )
 		{
 			if ( !ModelState.IsValid )
 			{
 				return BadRequest( ModelState );
 			}
 
-			_db.Users.Add( user );
+			_db.Accounts.Add( user );
 			await _db.SaveChangesAsync();
 
 			return Created( user );
@@ -83,7 +83,7 @@ namespace ConferenceWebAPI.Controllers
 
 		// PATCH: odata/Users(5)
 		[AcceptVerbs( "PATCH", "MERGE" )]
-		public async Task<IHttpActionResult> Patch( [FromODataUri] int key, Delta<User> patch )
+		public async Task<IHttpActionResult> Patch( [FromODataUri] int key, Delta<Account> patch )
 		{
 			Validate( patch.GetEntity() );
 
@@ -92,7 +92,7 @@ namespace ConferenceWebAPI.Controllers
 				return BadRequest( ModelState );
 			}
 
-			var user = await _db.Users.SingleOrDefaultAsync( u => u.Id == key );
+			var user = await _db.Accounts.SingleOrDefaultAsync( u => u.Id == key );
 			if ( user == null )
 			{
 				return NotFound();
@@ -122,13 +122,13 @@ namespace ConferenceWebAPI.Controllers
 		// DELETE: odata/Users(5)
 		public async Task<IHttpActionResult> Delete( [FromODataUri] int key )
 		{
-			var user = await _db.Users.SingleOrDefaultAsync( u => u.Id == key );
+			var user = await _db.Accounts.SingleOrDefaultAsync( u => u.Id == key );
 			if ( user == null )
 			{
 				return NotFound();
 			}
 
-			_db.Users.Remove( user );
+			_db.Accounts.Remove( user );
 			await _db.SaveChangesAsync();
 
 			return StatusCode( HttpStatusCode.NoContent );
@@ -138,7 +138,7 @@ namespace ConferenceWebAPI.Controllers
 		[EnableQuery]
 		public SingleResult<Profile> GetProfile( [FromODataUri] int key )
 		{
-			return SingleResult.Create( _db.Users.Where( m => m.Id == key ).Select( m => m.Profile ) );
+			return SingleResult.Create( _db.Accounts.Where( m => m.Id == key ).Select( m => m.Profile ) );
 		}
 
 		//[EnableQuery]
@@ -161,7 +161,7 @@ namespace ConferenceWebAPI.Controllers
 
 		private bool ApplicationUserExists( int key )
 		{
-			return _db.Users.Count( e => e.Id == key ) > 0;
+			return _db.Accounts.Count( e => e.Id == key ) > 0;
 		}
 	}
 }

@@ -76,9 +76,8 @@ namespace ConferenceWebAPI.Controllers
 
 			if ( session.Speaker == null )
 			{
-				var users = ( _db.Users as DbSet<User> );
-				if ( users != null )
-					session.Speaker = await users.FindAsync( User.Identity.GetUserId<int>() );
+				
+				session.Speaker = await _db.Accounts.FindAsync( User.Identity.GetUserId<int>() );
 			}
 
 			_db.Sessions.Add( session );
@@ -142,7 +141,7 @@ namespace ConferenceWebAPI.Controllers
 
 		// GET: odata/Sessions(5)/Speaker
 		[EnableQuery]
-		public SingleResult<User> GetSpeaker( [FromODataUri] int key )
+		public SingleResult<Account> GetSpeaker( [FromODataUri] int key )
 		{
 			return SingleResult.Create( _db.Sessions.Where( m => m.Id == key ).Select( m => m.Speaker ) );
 		}
