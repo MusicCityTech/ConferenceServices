@@ -11,15 +11,25 @@ using Microsoft.AspNet.Identity;
 
 namespace ConferenceWebAPI.Controllers
 {
+	[Authorize]
 	public class ProfilesController : ODataController
 	{
 		private readonly ConferenceContext _db = new ConferenceContext();
 
 		// GET: odata/Profiles
 		[EnableQuery]
-		public IQueryable<Profile> GetProfiles()
+		public async Task<IQueryable<Profile>> GetProfiles()
 		{
-			return _db.Profiles;
+			var profiles = _db.Profiles.AsQueryable();
+			var userId = User.Identity.GetUserId<int>();
+			var user = await _db.Accounts.FindAsync( userId );
+
+			if ( !user.HasRole( AccountRole.Organizer ) )
+			{
+				profiles = profiles.Where( p => p.User.Id == userId );
+			}
+
+			return profiles;
 		}
 
 		// GET: odata/Profiles(5)

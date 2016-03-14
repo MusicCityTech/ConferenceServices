@@ -124,6 +124,16 @@ namespace ConferenceWebAPI.Models
 			set { _logins = value; }
 		}
 
+		public virtual IList<Session> Sessions
+		{
+			get
+			{
+				_sessions = _sessions ?? new List<Session>();
+				return _sessions;
+			}
+			set { _sessions = value; }
+		}
+
 		public virtual Account AddRole( AccountRole role )
 		{
 			if ( Roles.All( r => r.Id != (int)role ) )
@@ -177,5 +187,6 @@ namespace ConferenceWebAPI.Models
 		private IList<Role> _roles;
 		private IList<AccountClaim> _claims;
 		private IList<AccountLogin> _logins;
+		private IList<Session> _sessions;
 	}
 }

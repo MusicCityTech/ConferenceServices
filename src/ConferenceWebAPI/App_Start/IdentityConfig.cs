@@ -68,7 +68,7 @@ namespace ConferenceWebAPI
 		{
 			if ( disposing )
 			{
-				_dbContext.Dispose();
+				//_dbContext.Dispose();
 			}
 		}
 

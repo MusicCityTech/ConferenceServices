@@ -17,9 +17,18 @@ namespace ConferenceWebAPI.Controllers
 
 		// GET: odata/Sessions
 		[EnableQuery]
-		public IQueryable<Session> GetSessions()
+		public async Task<IQueryable<Session>> GetSessions()
 		{
-			return _db.Sessions;
+			var sessions = _db.Sessions.AsQueryable();
+			var userId = User.Identity.GetUserId<int>();
+			var user = await _db.Accounts.FindAsync( userId );
+
+			if ( !user.HasRole( AccountRole.Organizer ) )
+			{
+				sessions = sessions.Where( s => s.Speaker.Id == userId );
+			}
+
+			return sessions;
 		}
 
 		// GET: odata/Sessions(5)
@@ -76,7 +85,7 @@ namespace ConferenceWebAPI.Controllers
 
 			if ( session.Speaker == null )
 			{
-				
+
 				session.Speaker = await _db.Accounts.FindAsync( User.Identity.GetUserId<int>() );
 			}
 

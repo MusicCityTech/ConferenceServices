@@ -1,27 +1,41 @@
 ﻿using System;
 using ConferenceWebAPI.Models;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 
 namespace ConferenceWebAPI.DAL
 {
 	public class ConferenceInitializer : System.Data.Entity.DropCreateDatabaseAlways<ConferenceContext>
 	{
-		protected override void Seed( ConferenceContext context )
+		protected async override void Seed( ConferenceContext context )
 		{
+
+			context.Roles.Add( new Role( AccountRole.Attendee ) );
+			context.Roles.Add( new Role( AccountRole.Organizer ) );
+			context.Roles.Add( new Role( AccountRole.Speaker ) );
+			context.Roles.Add( new Role( AccountRole.Volunteer ) );
+
+			var uersEmail = Faker.Internet.FreeEmail();
+			var passwordHasher = new PasswordHasher();
 			var user = new Account
 			{
-				UserName = Faker.Internet.FreeEmail(),
-				Profile = new Profile
-				{
-					FirstName = Faker.Name.First(),
-					LastName = Faker.Name.Last(),
-					Bio = string.Join( Environment.NewLine, Faker.Lorem.Paragraphs( 5 ) ),
-					Email = Faker.Internet.Email(),
-					GithubUsername = Faker.Internet.UserName(),
-					LinkedInProfile = Faker.Internet.DomainName(),
-					TwitterHandle = Faker.Internet.UserName(),
-					Website = Faker.Internet.DomainName()
-				}
+				UserName = uersEmail,
+				EmailConfirmed = true,
+				Email = uersEmail,
+				Password = passwordHasher.HashPassword( "secretpassword" )
+			};
+			
+			user.AddRole( AccountRole.Speaker );
+			user.Profile = new Profile
+			{
+				FirstName = Faker.Name.First(),
+				LastName = Faker.Name.Last(),
+				Bio = string.Join( Environment.NewLine, Faker.Lorem.Paragraphs( 5 ) ),
+				Email = Faker.Internet.Email(),
+				GithubUsername = Faker.Internet.UserName(),
+				LinkedInProfile = Faker.Internet.DomainName(),
+				TwitterHandle = Faker.Internet.UserName(),
+				Website = Faker.Internet.DomainName()
 			};
 			context.Accounts.Add( user );
 
@@ -66,6 +80,8 @@ namespace ConferenceWebAPI.DAL
 			};
 
 			context.Sessions.AddRange( sessions );
+
+
 			context.SaveChanges();
 		}
 	}

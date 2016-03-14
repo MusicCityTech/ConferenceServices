@@ -1,5 +1,4 @@
 ﻿using ConferenceWebAPI.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +10,7 @@ namespace ConferenceWebAPI.DAL
 		public ConferenceContext()
 			: base( "DefaultConnection" )
 		{
-			Database.SetInitializer( new ConferenceInitializer() );
+			//Database.SetInitializer( new ConferenceInitializer() );
 		}
 
 		public static ConferenceContext Create()
