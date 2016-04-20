@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace ConferenceWebAPI.Controllers
 {
+	[Authorize]
 	public class SessionsController : ODataController
 	{
 		private readonly ConferenceContext _db = new ConferenceContext();
