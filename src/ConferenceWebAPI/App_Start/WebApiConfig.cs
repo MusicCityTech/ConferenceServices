@@ -15,9 +15,9 @@ namespace ConferenceWebAPI
 			// Web API configuration and services
 			// Configure Web API to use only bearer token authentication.
 			config.SuppressDefaultHostAuthentication();
-			config.Filters.Add( new HostAuthenticationFilter( OAuthDefaults.AuthenticationType ) );
+			config.Filters.Add(new HostAuthenticationFilter( OAuthDefaults.AuthenticationType));
 
-			config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes();
 
 			ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
 			builder.EnableLowerCamelCase();
@@ -39,8 +39,6 @@ namespace ConferenceWebAPI
 				} );
 
 			// Web API routes
-
-
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "api/{controller}/{id}",

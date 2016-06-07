@@ -3,19 +3,18 @@ using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Owin;
 
-[assembly: OwinStartup( typeof( ConferenceWebAPI.Startup ) )]
+[assembly: OwinStartup(typeof(ConferenceWebAPI.Startup))]
 
 namespace ConferenceWebAPI
 {
 	public partial class Startup
 	{
-		public void Configuration( IAppBuilder app )
+		public void Configuration(IAppBuilder app)
 		{
 			var config = new HttpConfiguration();
-			app.UseCors( CorsOptions.AllowAll );
-			ConfigureAuth( app );
-			WebApiConfig.Register( config );
-			app.UseWebApi( config );
+			app.UseCors(CorsOptions.AllowAll);
+			ConfigureAuth(app);
+			app.UseWebApi(config);
 			config.EnsureInitialized();
 		}
 	}
